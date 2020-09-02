@@ -1,6 +1,6 @@
 import mysql.connector
 
-mydb = mysql.connector.connect(host = "localhost", user = "root", passwd = "root", port = 8889, database = "adventurer_matches")
+mydb = mysql.connector.connect(host = "localhost", user = "root", passwd = "root", port = 3306, database = "adventurer_matches")
 mycursor = mydb.cursor()
 
 #==========================================
@@ -12,9 +12,9 @@ mycursor = mydb.cursor()
 #                     victor - A string that says the victors name and that they won
 # Return Value(s): Nothing is returned from this method
 #==========================================
-def db_insert(player1, player2, player1_hp, player2_hp, victor):
-    sql = "insert into match_scores (first_name, second_name, final_hp_p1, final_hp_p2, result) VALUES (%s, %s, %s, %s, %s)"
-    val = (player1, player2, player1_hp, player2_hp, victor)
+def db_insert(player1, player2, player1_hp, player2_hp, hp_difference, victor):
+    sql = "insert into match_scores (first_name, second_name, final_hp_p1, final_hp_p2, hp_difference, result) VALUES (%s, %s, %s, %s, %s, %s)"
+    val = (player1, player2, player1_hp, player2_hp, hp_difference, victor)
     mycursor.execute(sql, val)
     mydb.commit()
     print(mycursor.rowcount, "record inserted")
@@ -137,38 +137,38 @@ def duel(adv1, adv2):
             print(adv1)
             print(adv2)
             print(str(adv1.name) + ' wins!')
-            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, (str(adv1.name) + ' wins!'))
+            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, adv1.HP - adv2.HP, (str(adv1.name) + ' wins!'))
             return True
         adv2.attack(adv1)
         if adv1.HP <= 0 and adv2.HP > 0:
             print(adv1)
             print(adv2)
             print(str(adv2.name) + ' wins!')
-            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, (str(adv2.name) + ' wins!'))
+            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, adv2.HP - adv1.HP, (str(adv2.name) + ' wins!'))
             return False
-        elif adv1.HP <=0 and adv2.HP <= 0:
+        elif adv1.HP <= 0 and adv2.HP <= 0:
             print(adv1)
             print(adv2)
             print('Everyone loses!')
-            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, "Everyone loses!")
+            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, "Not applicable. Everyone lost", "Everyone loses!")
             return False
     if adv2.HP <= 0 and adv1.HP > 0:
             print(adv1)
             print(adv2)
             print(str(adv1.name) + ' wins!')
-            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, (str(adv1.name) + ' wins!'))
+            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, adv1.HP - adv2.HP, (str(adv1.name) + ' wins!'))
             return True
     elif adv1.HP <= 0 and adv2.HP > 0:
             print(adv1)
             print(adv2)
             print(str(adv2.name) + ' wins!')
-            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, (str(adv2.name) + ' wins!'))
+            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, adv2.HP - adv1.HP, (str(adv2.name) + ' wins!'))
             return False
     elif adv1.HP <=0 and adv2.HP <= 0:
             print(adv1)
             print(adv2)
             print('Everyone loses!')
-            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, "Everyone loses!")
+            db_insert(adv1.name, adv2.name, adv1.HP, adv2.HP, "Not applicable. Everyone lost", "Everyone loses!")
             return False
 
 
@@ -201,3 +201,4 @@ Thor = Fighter("Thor", 6, 5, 2, 3)
 Wizard_Cloud = Wizard("Wizard Cloud", 4, 4, 1, 10)
 duel(adv12, adv22)
 duel(Thor, Wizard_Cloud)
+tournament([Thor, adv12, adv22, Wizard_Cloud])

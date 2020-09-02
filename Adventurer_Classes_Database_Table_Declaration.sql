@@ -12,6 +12,7 @@ CREATE TABLE match_scores (
 	second_name VARCHAR(50),
 	final_hp_p1 int,
     final_hp_p2 int,
+    hp_difference VARCHAR(50),
 	result VARCHAR(50),
     created_at timestamp default current_timestamp,
     primary key (id)
@@ -21,18 +22,21 @@ insert into match_scores (
 first_name, 
 second_name, 
 final_hp_p1, 
-final_hp_p2, 
+final_hp_p2,
+hp_difference, 
 result)
 values (
 'Frodo',
 'Smeagol',
 50,
 0,
+50,
 'Frodo wins'),
 ('IronMan',
 'Loki',
 2,
 0,
+2,
 'IronMan wins');
 
 select * from match_scores;
