@@ -12,5 +12,3 @@ After every single duel the following is stored in SQL database:
 - The winner of the duel
 - The final difference in HP of the duel
 - The time and date that the entry was created
-
-![](Images/SQL Database with results.JPG)
