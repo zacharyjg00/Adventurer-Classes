@@ -15,4 +15,5 @@ After every single duel the following is stored in SQL database:
 - The time and date that the entry was created
 
 ![](Images/SQLDatabaseWithResults.JPG)
+
 **The above image shows the database with several entries. The first two are manually inputted through mySQL while the rest are put in by running the Python code.**
